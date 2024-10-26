@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-
+using boardroom_management.Data;
 namespace boardroom_management.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -56,8 +56,8 @@ namespace boardroom_management.Data
             builder.Entity<ApplicationUser>().HasData(adminUser);
 
             // Assign the Admin role to the admin user
-            builder.Entity<ApplicationUserRole<string>>().HasData(
-                new ApplicationUserRole<string>
+            builder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>
                 {
                     RoleId = "208a99c0-04b3-41b2-8557-8e2a3f2bfcbe",  // Admin role ID
                     UserId = adminUserId  // Updated admin user ID
