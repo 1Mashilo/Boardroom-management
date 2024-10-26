@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using boardroom_management.Data;
 
 namespace boardroom_management.Areas.Identity.Pages.Account.Manage
 {

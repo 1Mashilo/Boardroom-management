@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using boardroom_management.Data;
 
 namespace boardroom_management.Areas.Identity.Pages.Account.Manage
 {
