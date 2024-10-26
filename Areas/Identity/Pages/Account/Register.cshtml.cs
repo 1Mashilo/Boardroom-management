@@ -1,17 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using boardroom_management.Data;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+#nullable disable
 
+using Microsoft.EntityFrameworkCore;
 
-namespace boardroom_management.Areas.Identity.Pages.Account
+namespace LeaveManagementSystem.Web.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
@@ -35,7 +28,7 @@ namespace boardroom_management.Areas.Identity.Pages.Account
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
-            _roleManager = roleManager;
+            this._roleManager = roleManager;
             _logger = logger;
             _emailSender = emailSender;
         }
@@ -44,7 +37,6 @@ namespace boardroom_management.Areas.Identity.Pages.Account
         public InputModel Input { get; set; } = new InputModel();
 
         public string ReturnUrl { get; set; }
-
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public class InputModel
@@ -83,13 +75,10 @@ namespace boardroom_management.Areas.Identity.Pages.Account
         {
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            // Limiting roles to only "Administrator" and "Employee" for registration
             var roles = await _roleManager.Roles
-                .Where(r => r.Name == "Administrator" || r.Name == "Employee")
-                .Select(r => r.Name)
+                .Select(q => q.Name)
+                .Where(q => q != "Administrator")
                 .ToArrayAsync();
-
             Input.RoleNames = roles;
         }
 
@@ -97,7 +86,6 @@ namespace boardroom_management.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -113,14 +101,13 @@ namespace boardroom_management.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    // Assigning roles based on the RoleName input
                     if (Input.RoleName == "Administrator")
                     {
-                        await _userManager.AddToRoleAsync(user, "Administrator");
+                        await _userManager.AddToRolesAsync(user, new[] { "User", "Administrator" });
                     }
                     else
                     {
-                        await _userManager.AddToRoleAsync(user, "Employee");
+                        await _userManager.AddToRoleAsync(user, "User");
                     }
 
                     var userId = await _userManager.GetUserIdAsync(user);
@@ -151,7 +138,6 @@ namespace boardroom_management.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
 
