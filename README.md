@@ -38,6 +38,7 @@ The Boardroom Management System is an ASP.NET Core MVC application designed to f
 - Implemented mail authentication with PaperCut SMTP
 - Scaffolded Boardroom and Reservation models
 - Developed basic user interface for viewing and scheduling reservations
+- Added frontend using Bootstrap for responsive design
 
 ## Tasks To Be Completed
 
@@ -58,3 +59,5 @@ To run this project locally, follow these steps:
 1. Clone the repository:
    ```bash
    git clone https://github.com/1Mashilo/Boardroom-management.git
+   Add the appsettings.json file with your configuration settings.
+   ```
