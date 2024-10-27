@@ -59,7 +59,9 @@ To run this project locally, follow these steps:
 1. Clone the repository:
    ```bash
    git clone https://github.com/1Mashilo/Boardroom-management.git
-   {
+
+##  ApplicationSettings.json
+{
   "ConnectionStrings": {
     "DefaultConnection": "Your SQL Server connection string"
   },
@@ -74,8 +76,11 @@ To run this project locally, follow these steps:
     "FromEmail": "no-reply@boardroom.com"
   }
 }
-dotnet restore
-dotnet tool install --global dotnet-ef
-dotnet ef migrations add InitialCreate
-dotnet ef database update
-dotnet run
+
+## Database migrations 
+
+- dotnet restore
+- dotnet tool install --global dotnet-ef
+- dotnet ef migrations add InitialCreate
+- dotnet ef database update
+- dotnet run
