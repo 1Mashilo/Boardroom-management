@@ -1,7 +1,4 @@
 using System.Net.Mail;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
 
 namespace boardroom_management.Services
 {

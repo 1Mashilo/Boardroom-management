@@ -1,0 +1,142 @@
+﻿@model List<MeetingRoomBooking.Models.Room>
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link href="~/StyleSheets/style.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+    <script>
+        function PrepareDate(date) {
+            if ($.datepicker.noWeekends(date)[0]) {
+                return [true];
+            } else {
+                return $.datepicker.noWeekends(date);
+            }
+        }
+        $(function () {
+            $("#BookingDay").datepicker({
+                beforeShowDay: PrepareDate,
+                //  dateFormat: 'dd/mm/yy',
+                minDate: new Date()
+            });
+        });
+    </script>
+</head>
+<body>
+    <h2>Réservation d'une salle de réunion</h2>
+    <form id="createBooking">
+        <label>Nom d'utilisateur ou entreprise:</label>
+        <input type="text" name="OwnerName"><br />
+        <label>Nom de la réunion</label>
+        <input type="text" name="BookingName"><br />
+        <label>Salle de réunion:</label>
+        <select id="Room"name="Room">
+        @foreach (var room in Model)
+        {
+            <option value="@room.RoomID">@room.RoomName</option>
+        }
+        </select><br/>
+        <label>Jour de la réunion:</label>
+        <input id="BookingDay" type="text" name="BookingDay" readonly><br />
+        <label>Heure de début:</label>
+        <select id="BookingStart" name=BookingStart disabled>
+            <option>Selectionnez une date</option>
+        </select><br />
+        <label>Heure de fin:</label>
+        <select id="BookingEnd" name=BookingEnd disabled>
+            <option>Selectionnez une heure de début</option>
+        </select><br /><br />
+        <input id="bookButton" type="submit" value="Réserver">
+    </form>
+    <script type="text/javascript">
+        $(function () {
+
+            $("#Room").change(function () {
+                if ($("input[name=BookingDay]").val() !== "")
+                    SetAvailableStartHourFromDay();
+            });
+
+            $("#BookingDay").change(function () {
+                SetAvailableStartHourFromDay();
+            });
+
+            $("#BookingStart").change(function () {
+                SetAvailableEndHourFromDay();
+            });
+
+            $("#createBooking").submit(function (e) {
+                alert("create");
+                e.preventDefault();
+                var booking = {};
+                booking.BookingName = $("input[name=BookingName]").val();
+                booking.OwnerName = $("input[name=OwnerName]").val();
+                booking.RoomId = $("select[name=Room]").val();
+                booking.BookingDay = $("input[name=BookingDay]").val();
+                booking.BookingStart = $("select[name=BookingStart]").val();
+                booking.BookingEnd = $("select[name=BookingEnd]").val();
+                console.log(booking);
+                $.ajax({
+                    url: '/Home/Create',
+                    type: 'POST',
+                    data: {
+                        b: booking
+                    }
+                });
+            });
+        })
+
+        function SetAvailableEndHourFromDay() {
+            $("#BookingEnd option").remove();
+
+            $.ajax({
+                url: '/Home/GetAvailableEndHourFromDay',
+                type: 'POST',
+                data: {
+                    dayString: $("#BookingDay").val(),
+                    startHourString: $("#BookingStart").val(),
+                    roomID: $("#Room :selected").val()
+                },
+                success: function (data) {
+                    console.log($(data));
+                    for (var i = 0; i < data.length; i++) {
+                        var option = document.createElement('option');
+                        $("#BookingEnd").append($(option).attr('value', data[i]).html(data[i]));
+                    }
+                    $("#BookingEnd").prop('disabled', false);
+                }
+            });
+        }
+        function SetAvailableStartHourFromDay() {
+            $("#BookingStart option").remove();
+            $("#BookingEnd option").remove();
+            $("#BookingEnd").append($(document.createElement('option')).html("Selectionnez une heure de début"));
+            $("#BookingEnd").prop('disabled', true);
+
+            $.ajax({
+                url: '/Home/GetAvailableStartHourFromDay',
+                type: 'POST',
+                data: {
+                    dayString: $("#BookingDay").val(),
+                    roomID: $("#Room :selected").val()
+                },
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var option = document.createElement('option');
+                        $("#BookingStart").append($(option).attr('value', data[i]).html(data[i]));
+                    }
+                    $("#BookingStart").prop('disabled', false);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

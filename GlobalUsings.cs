@@ -1,3 +1,6 @@
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using boardroom_management.Services;
+global using boardroom_management.Models;
 global using boardroom_management.Data;
 global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.AspNetCore.Authorization;
@@ -16,8 +19,8 @@ global using System.Linq;
 global using System.Threading.Tasks;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.AspNetCore.Mvc.Rendering;
-global using Microsoft.AspNetCore.Mvc.ViewFeatures;
-global using Microsoft.AspNetCore.Mvc.ModelBinding;
+global using System.Security.Claims;
+global using Microsoft.AspNetCore.Http;
 
 namespace boardroom_management
 {

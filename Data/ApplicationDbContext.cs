@@ -11,8 +11,9 @@ namespace boardroom_management.Data
         {
         }
 
-        public DbSet<Boardroom> Boardrooms { get; set; }
-        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
