@@ -1,3 +1,8 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using boardroom_management.Models;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace boardroom_management.Controllers
 {
@@ -5,13 +10,13 @@ namespace boardroom_management.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _db;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public HomeController(
             ApplicationDbContext db,
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _db = db;
             _userManager = userManager;
