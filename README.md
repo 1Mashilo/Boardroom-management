@@ -29,7 +29,7 @@ The Boardroom Management System is an ASP.NET Core MVC application that streamli
 - **Backend:** ASP.NET Core, Entity Framework Core, Microsoft Graph SDK
 - **Database:** Microsoft SQL Server
 - **Email Service:** PaperCut SMTP for development mail testing
-- **Authentication:** Microsoft Identity Client (MSAL) for OAuth-based authentication
+- **Authentication:** Authentication and role-based authorization with ASP.NET Identity
 
 ## Completed Tasks
 
@@ -40,9 +40,7 @@ The Boardroom Management System is an ASP.NET Core MVC application that streamli
 - Developed CRUD operations for boardroom and reservation entities
 - Configured email notifications for reservation confirmations using PaperCut SMTP
 - Implemented core business logic for scheduling and preventing double-booking of boardrooms
-- Built a responsive front-end with Bootstrap for user-friendly interfaces
-- Added Microsoft Identity Client (MSAL) for secure user authentication with Microsoft services
-- Tested endpoints for the BookingsController, including viewing, creating, editing, and deleting reservations
+- Built a responsive front-end with Javascript, CSS and Bootstrap 
 
 ## Tasks To Be Completed
 
@@ -61,26 +59,15 @@ To run this project locally, follow these steps:
    git clone https://github.com/1Mashilo/Boardroom-management.git
 
 ##  ApplicationSettings.json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Your SQL Server connection string"
-  },
-  "GraphAPI": {
-    "TenantId": "Your Azure AD Tenant ID",
-    "ClientId": "Your Microsoft Graph Application Client ID",
-    "ClientSecret": "Your Microsoft Graph Application Client Secret"
-  },
-  "PaperCutSMTP": {
-    "Host": "localhost",
-    "Port": 25,
-    "FromEmail": "no-reply@boardroom.com"
-  }
-}
+ ```bash
+ {
+   "ConnectionStrings": {
+     "DefaultConnection": "Your SQL Server connection string"
+   },
 
-## Database migrations 
-
-- dotnet restore
-- dotnet tool install --global dotnet-ef
-- dotnet ef migrations add InitialCreate
-- dotnet ef database update
-- dotnet run
+   "PaperCutSMTP": {
+     "Host": "localhost",
+     "Port": 25,
+     "FromEmail": "no-reply@boardroom.com"
+   }
+ }
